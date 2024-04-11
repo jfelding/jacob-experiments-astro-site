@@ -8,6 +8,7 @@ import Link from "@components/Link.astro";
 import { Category } from "src/project.type";
 import { SITE, HOME, SOCIALS } from "@consts";
 const blog = (await getCollection("blog"))
+
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
@@ -17,6 +18,7 @@ const projects = (await getCollection("projects"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
 ---
+
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
@@ -28,8 +30,8 @@ const projects = (await getCollection("projects"))
         <article class="space-y-4">
           <p class="animate">
             I'm Jacob, and I'm in desparate need of a personal project manager.
-            <br />
-            Lacking one, this is my attempt at project self-management when it comes
+            <br /><br/>
+            Lacking one, this is my attempt at <b>project self-management</b> when it comes
             to my ideas, hobbies and experiments.
           </p>
 
@@ -54,6 +56,12 @@ const projects = (await getCollection("projects"))
             Who am I? I'm Jacob. Check out more
             <a href="https://github.com/jfelding">here</a> or find my contact information
             below.
+          </p>
+          <img class="animate" alt="Project Pyramid: Expect fewer outputs than ideas" style="width: 50%;"
+          src="https://lh3.googleusercontent.com/pw/AP1GczP-H70ZLjzzyKu7a_B4n1qqd7Owdxz3DT4EZToFAMwJohSBCzaz-PgEK3mOf5RBWTr99fY0xzTDCbO8qSrRK0NkFzDDiAh4e4xqJjLvdbxxv4bjAfziU6-XACRWmoP_t_uJBozbIxh6siua6yz8_HiT0w=w1002-h952-s-no-gm"/>
+          <p class="animate">
+            Expect fewer outputs than projects and fewer projects than ideas. Some things should just stay ideas. 
+            A separate section for ideas is a work-in-progress.
           </p>
         </article>
       </section>
