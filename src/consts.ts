@@ -6,6 +6,7 @@ export const SITE: Site = {
   NUM_POSTS_ON_HOMEPAGE: 3,
   NUM_WORKS_ON_HOMEPAGE: 2,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
+  NUM_IDEAS_ON_HOMEPAGE: 30,
 };
 
 export const HOME: Metadata = {
@@ -18,6 +19,10 @@ export const BLOG: Metadata = {
   DESCRIPTION: "Results of my projects are posted as blog posts.",
 };
 
+export const IDEAS: Metadata = {
+  TITLE: "Project Ideas and thoughts",
+  DESCRIPTION: "Loose thoughts and things I would like to explore.",
+};
 export const WORK: Metadata = {
   TITLE: "Work",
   DESCRIPTION: "Where I have worked and what I have done.",
