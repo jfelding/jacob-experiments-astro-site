@@ -1,5 +1,5 @@
 import { defineCollection, z } from "astro:content";
-import type { Project } from "src/project.type";
+import type { Project, Idea } from "src/project.type";
 
 const blog = defineCollection({
   type: "content",
@@ -22,7 +22,10 @@ const work = defineCollection({
   }),
 });
 
+const ideas = defineCollection<Idea>({
+});
+
 const projects = defineCollection<Project>({
   type: "content",
 });
-export const collections = { blog, work, projects };
+export const collections = { blog, work, projects, ideas };
