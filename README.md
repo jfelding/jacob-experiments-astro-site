@@ -37,13 +37,17 @@ Follow these steps to set up the project on your local machine:
 [http://localhost:4321/](http://localhost:4321/).
 
 
-## Recent Posts
+## Outputs
 
-You can find the recent posts in the blog.
+You can find the recent posts in the project outputs page.
 
-## Recent Projects
+## Projects
 
 You can find the recent projects on the projects page.
+
+## Ideas
+
+You can find recent thoughts and ideas in the ideas page.
 
 ## Work Experience
 
