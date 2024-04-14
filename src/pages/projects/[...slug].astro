@@ -48,30 +48,42 @@ const { Content } = await project.render();
       <div class="animate text-2xl font-semibold text-black dark:text-white">
         {project.data.title}
       </div>
-      {
-        (project.data.demoURL || project.data.repoURL) && (
-          <>
-            <nav class="animate flex gap-1">
-              {project.data.demoURL && (
-                <Link href={project.data.demoURL} external>
-                  demo
-                </Link>
-              )}
-              {project.data.demoURL && project.data.repoURL && <span>/</span>}
-              {project.data.repoURL && (
-                <Link href={project.data.repoURL} external>
-                  repo
-                </Link>
-              )}
-            </nav>
-          </>
-        )
-      }
 
       <div
         style="width:fit-content"
         class="p-4 rounded-lg animate dark:border-white/50 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white"
       >
+        {
+          project.data.demoURL && (
+            <span class="flex">
+              <span class="font-bold" style="width: 150px;">
+                Demo:
+              </span>
+              <span class="ml-2">🏆 </span>
+              <span class="ml-2">
+                <Link href={project.data.repoURL} external>
+                  {project.data.demoURL}
+                </Link>
+              </span>
+            </span>
+          )
+        }
+        {
+          project.data.repoURL && (
+            <span class="flex">
+              <span class="font-bold" style="width: 150px;">
+                Demo:
+              </span>
+              <span class="ml-2">🧑‍💻 </span>
+              <span class="ml-2">
+                <Link href={project.data.repoURL} external>
+                  {project.data.repoURL}
+                </Link>
+              </span>
+            </span>
+          )
+        }
+
         {
           project.data.statusRating && (
             <span class="flex">
@@ -127,7 +139,7 @@ const { Content } = await project.render();
                 {project.data.categories
                   .map(
                     (category: Category) =>
-                      getCategoryEmoji(category) + "  " + category,
+                      getCategoryEmoji(category) + "  " + category
                   )
                   .join("; ")}
               </span>
