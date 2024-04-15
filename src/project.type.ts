@@ -38,9 +38,8 @@ export type Idea = {
     description: string;
     date: Date;
     draft?: boolean;
+    categories?: Category[];
     projectUrl?: string;
-    statusRating?: 'in-progress' | 'on-hold' | 'completed' | 'delayed' | 'upcoming' | 'cancelled' | 'under-review' | 'needs-attention' | 'awaiting-feedback' | 'testing-phase' | 'polishing';
-    categories: Category[];
 };
 
 

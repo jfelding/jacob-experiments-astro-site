@@ -1,126 +1,116 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import {
-    getRatingEmoji,
-    getStatusEmoji,
-    getStatusDescriptor,
-    getRatingDescriptor,
-    getCategoryEmoji,
+  getRatingEmoji,
+  getStatusEmoji,
+  getStatusDescriptor,
+  getRatingDescriptor,
+  getCategoryEmoji,
 } from "src/lib/utils";
 import { Category } from "src/project.type";
 
 type Props = {
-    entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
-    timeInvestmentRating: "low" | "medium" | "high";
-    necessityRating: "low" | "medium" | "high";
-    statusRating:
-        | undefined
-        | "in-progress"
-        | "on-hold"
-        | "completed"
-        | "delayed"
-        | "upcoming"
-        | "cancelled"
-        | "under-review"
-        | "needs-attention"
-        | "awaiting-feedback"
-        | "testing-phase"
-        | "polishing";
-    categories: Category[];
+  entry: CollectionEntry<"projects">;
+  timeInvestmentRating: "low" | "medium" | "high";
+  necessityRating: "low" | "medium" | "high";
+  statusRating:
+    | undefined
+    | "in-progress"
+    | "on-hold"
+    | "completed"
+    | "delayed"
+    | "upcoming"
+    | "cancelled"
+    | "under-review"
+    | "needs-attention"
+    | "awaiting-feedback"
+    | "testing-phase"
+    | "polishing";
+  categories: Category[];
 };
 
 const {
-    entry,
-    timeInvestmentRating,
-    necessityRating,
-    statusRating,
-    categories,
+  entry,
+  timeInvestmentRating,
+  necessityRating,
+  statusRating,
+  categories,
 } = Astro.props;
 ---
 
 <a
-    href={`/${entry.collection}/${entry.slug}`}
-    class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+  href={`/${entry.collection}/${entry.slug}`}
+  class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
 >
-    <div class="flex flex-col flex-1 truncate">
-        <div class="font-semibold">
-            {entry.data.title}
-        </div>
-        <div class="text-sm">
-            {entry.data.description}
-        </div>
-        <div class="text-sm mt-4">
-            {
-                statusRating && (
-                    <span class="flex">
-                        <span style="width: 150px;">Project Status:</span>
-                        <span class="ml-2">{getStatusEmoji(statusRating)}</span>
-                        <span class="ml-2">
-                            {getStatusDescriptor(statusRating)}
-                        </span>
-                    </span>
-                )
-            }
-            {
-                necessityRating && (
-                    <span class="flex">
-                        <span style="width: 150px;">Necessity:</span>
-                        <span class="ml-2">
-                            {getRatingEmoji(necessityRating)}
-                        </span>
-                        <span class="ml-2">
-                            {getRatingDescriptor(necessityRating)}
-                        </span>
-                    </span>
-                )
-            }
-            {
-                timeInvestmentRating && (
-                    <span class="flex">
-                        <span style="width: 150px;">Time Investment:</span>
-                        <span class="ml-2">
-                            {getRatingEmoji(timeInvestmentRating)}
-                        </span>
-                        <span class="ml-2">
-                            {getRatingDescriptor(timeInvestmentRating)}
-                        </span>
-                    </span>
-                )
-            }
-            {
-                categories && (
-                    <span class="flex">
-                        <span style="width: 150px;">Categories:</span>
-                        <span class="ml-2">
-                            {categories
-                                .map(
-                                    (category: Category) =>
-                                        getCategoryEmoji(category) +
-                                        "  " +
-                                        category,
-                                )
-                                .join("; ")}
-                        </span>
-                    </span>
-                )
-            }
-        </div>
+  <div class="flex flex-col flex-1 truncate">
+    <div class="font-semibold">
+      {entry.data.title}
     </div>
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        class="absolute top-1/2 right-2 -translate-y-1/2 size-5 stroke-2 fill-none stroke-current"
-    >
-        <line
-            x1="5"
-            y1="12"
-            x2="19"
-            y2="12"
-            class="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"
-        ></line>
-        <polyline
-            points="12 5 19 12 12 19"
-            class="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out"
-        ></polyline>
-    </svg>
+    <div class="text-sm">
+      {entry.data.description}
+    </div>
+    <div class="text-sm mt-4">
+      {
+        statusRating && (
+          <span class="flex">
+            <span style="width: 150px;">Project Status:</span>
+            <span class="ml-2">{getStatusEmoji(statusRating)}</span>
+            <span class="ml-2">{getStatusDescriptor(statusRating)}</span>
+          </span>
+        )
+      }
+      {
+        necessityRating && (
+          <span class="flex">
+            <span style="width: 150px;">Necessity:</span>
+            <span class="ml-2">{getRatingEmoji(necessityRating)}</span>
+            <span class="ml-2">{getRatingDescriptor(necessityRating)}</span>
+          </span>
+        )
+      }
+      {
+        timeInvestmentRating && (
+          <span class="flex">
+            <span style="width: 150px;">Time Investment:</span>
+            <span class="ml-2">{getRatingEmoji(timeInvestmentRating)}</span>
+            <span class="ml-2">
+              {getRatingDescriptor(timeInvestmentRating)}
+            </span>
+          </span>
+        )
+      }
+      {
+        categories && (
+          <span class="flex">
+            <span style="width: 150px;">Categories:</span>
+            <span class="ml-2">
+              {categories
+                .map(
+                  (category: Category) =>
+                    getCategoryEmoji(category) + "  " + category
+                )
+                .join("; ")}
+            </span>
+          </span>
+        )
+      }
+    </div>
+  </div>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    class="absolute top-1/2 right-2 -translate-y-1/2 size-5 stroke-2 fill-none stroke-current"
+  >
+    <line
+      x1="5"
+      y1="12"
+      x2="19"
+      y2="12"
+      class="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"
+    ></line>
+    <polyline
+      points="12 5 19 12 12 19"
+      class="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out"
+    ></polyline>
+  </svg>
 </a>
