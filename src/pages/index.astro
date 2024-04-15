@@ -180,5 +180,22 @@ const ideas = (await getCollection("ideas"))
         </section>
       </section>
     </div>
-  </Container></PageLayout
+  </Container>
+  <script>
+    declare global {
+      interface Window {
+        netlifyIdentity: any;
+      }
+    }
+
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", (user:any) => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script></PageLayout
 >
