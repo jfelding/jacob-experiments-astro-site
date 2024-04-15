@@ -1,0 +1,62 @@
+backend:
+  name: git-gateway
+  branch: main 
+  repo: jfelding/jacob-experiments-astro-site
+  site_domain: jacob-experiments.com 
+  base_url: https://jacob-experiments-astro-site.pages.dev/ 
+  auth_endpoint: oauth 
+
+media_folder: "src/assets" # Location where files will be stored in the repo
+public_folder: "assets" # The src attribute for uploaded media
+
+collections:
+  - name: "blog" # Used in routes, e.g., /admin/collections/blog
+    label: "Blog" # Used in the UI
+    folder: "src/content/blog" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # The field to use for the URL
+    extension: mdx
+    fields: # The fields for each document, usually in frontmatter
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    slug: "{{slug}}" # The field to use for the URL
+    extension: mdx
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true}
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Time Investment Rating", name: "timeInvestmentRating", widget: "select", options: ["low", "medium", "high"], required: true }
+      - { label: "Necessity Rating", name: "necessityRating", widget: "select", options: ["low", "medium", "high"], required: true  }
+      - { label: "Status Rating", name: "statusRating", widget: "select", options: ["upcoming", "needs-attention", "in-progress", "on-hold", "completed", "delayed", "cancelled", "under-review", "needs-attention", "awaiting-feedback", "testing-phase", "polishing"],required: true }
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        field: { label: "Category", name: "category", widget: "select", options: ["Gardening", "Cooking & Baking", "Software", "Data Analysis and Machine Learning", "Hardware & Repairs"] }
+      - { label: "Content", name: "content", widget: "markdown" }
+
+
+  - name: "Ideas"
+    label: "Ideas"
+    folder: "src/content/ideas"
+    create: true
+    slug: "{{slug}}" # The field to use for the URL
+    extension: mdx
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true}
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        field: { label: "Category", name: "category", widget: "select", options: ["Gardening", "Cooking & Baking", "Software", "Data Analysis and Machine Learning", "Hardware & Repairs"] }
+      - { label: "Content", name: "content", widget: "markdown" }
+
