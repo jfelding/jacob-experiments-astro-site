@@ -4,9 +4,11 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import { astroImageTools } from "astro-imagetools";
 
+import decapCmsOauth from "astro-decap-cms-oauth";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://jacob-experiments.com",
-  integrations: [mdx(), sitemap(), tailwind(), astroImageTools],
-
+  integrations: [mdx(), sitemap(), tailwind(), astroImageTools, decapCmsOauth()],
+  output: "hybrid"
 });
