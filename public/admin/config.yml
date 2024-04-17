@@ -42,7 +42,7 @@ collections:
         name: "categories"
         widget: "list"
         field: { label: "Category", name: "category", widget: "select", options: ["Gardening", "Cooking & Baking", "Software", "Data Analysis and Machine Learning", "Hardware & Repairs"] }
-      - { label: "Content", name: "content", widget: "markdown" }
+      - { label: "Body", name: "body", widget: "markdown", required: false}
 
 
   - name: "Ideas"
@@ -54,12 +54,15 @@ collections:
     extension: "mdx"
     fields:
       - { label: "Title", name: "title", widget: "string", required: true}
-      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Description", name: "description", widget: "text", required :false}
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - label: "Categories"
         name: "categories"
         widget: "list"
-        field: { label: "Category", name: "category", widget: "select", options: ["Gardening", "Cooking & Baking", "Software", "Data Analysis and Machine Learning", "Hardware & Repairs"] }
-      - { label: "Content", name: "content", widget: "markdown" }
+        field: 
+        { label: "Category", name: "category", widget: "select", options: 
+          ["Gardening", "Cooking & Baking", "Software", "Data Analysis and Machine Learning", "Hardware & Repairs"] 
+        }
+      - { label: "Body", name: "body", widget: "markdown", required: false}
 
