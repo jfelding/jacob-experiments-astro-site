@@ -6,8 +6,8 @@ backend:
   base_url: https://jacob-experiments-astro-site.pages.dev/
   auth_endpoint: oauth
 
-media_folder: "src/assets" # Location where files will be stored in the repo
-public_folder: "assets" # The src attribute for uploaded media
+media_folder: "public/assets/images" # Location where files will be stored in the repo
+public_folder: "/assets/images" # The src attribute for uploaded media
 
 collections:
   - name: "Project outputs" # Used in routes, e.g., /admin/collections/blog
