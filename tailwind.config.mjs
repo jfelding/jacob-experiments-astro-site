@@ -28,7 +28,19 @@ export default {
           '800': '#373A35',
           '900': '#141613',
         },
-
+        sandy: {
+          DEFAULT: '#fffcf5', // Default color
+          '50': '#fefdfb',    // Lightest shade
+          '100': '#fcf9ee',   // Lighter shade
+          '200': '#f7f3d5',   // Light shade
+          '300': '#e3d7ab',   // Medium shade
+          '400': '#cfc182',   // Medium-dark shade
+          '500': '#b9a55c',   // Dark shade
+          '600': '#9c8743',   // Darker shade
+          '700': '#7e6a2c',   // Even darker shade
+          '800': '#5f4c16',   // Darkest shade
+          '900': '#412e00',   // Deepest shade
+        },
 
       },
 
