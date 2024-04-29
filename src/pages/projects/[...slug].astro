@@ -6,7 +6,7 @@ import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
 import Link from "@components/Link.astro";
-import { Category } from "src/project.type";
+import { Category, type Idea, loadIdeaFromFilename } from "src/project.type";
 import {
   getRatingEmoji,
   getStatusEmoji,
@@ -145,6 +145,35 @@ const { Content } = await project.render();
               </span>
             </span>
           )
+        }
+        {
+          project.data.relatedIdeaFiles &&
+            project.data.relatedIdeaFiles.length > 0 && (
+              <div class="flex flex-col">
+                <span class="font-bold mb-2">Related Ideas:</span>
+                {project.data.relatedIdeaFiles.map((ideaFilename: string) => {
+                  // Fetch the idea title from the filename
+                  const ideaTitle = loadIdeaFromFilename(ideaFilename);
+
+                  // Construct the relative URL for the idea
+                  const filenameWithoutExtension = ideaFilename.replace(
+                    /\.(md|mdx)$/,
+                    ""
+                  );
+
+                  // Construct the URL without the extension
+                  const ideaURL = `../ideas/${filenameWithoutExtension}`;
+
+                  return (
+                    <span class="ml-2">
+                      <Link href={ideaURL} external>
+                        {ideaTitle || filenameWithoutExtension}
+                      </Link>
+                    </span>
+                  );
+                })}
+              </div>
+            )
         }
       </div>
     </div>
