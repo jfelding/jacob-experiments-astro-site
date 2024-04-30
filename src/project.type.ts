@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 export enum Category {
     Gardening = "Gardening",
     CookingAndBaking = "Cooking & Baking",
@@ -46,29 +49,26 @@ export type Idea = {
     relatedProjectFiles?: string[]; // File names (mdx files) of projects connected to the idea
 };
 
-import { string } from "astro/zod";
-import fs from "fs";
-import path from "path";
 
 export const loadIdeaFromFilename = (ideaFilename: string): string => {
-    const ideaFilePath = path.resolve(`../content/ideas/${ideaFilename}`);
-
-    try {
-        const fileContent = fs.readFileSync(ideaFilePath, "utf-8");
-        // Parse the frontmatter (assuming it's YAML format)
-        const frontmatter = parseFrontmatter(fileContent);
-        return frontmatter.title;
-    } catch (error) {
-        return "";
-    }
+    const ideasDirectory = "src/content/ideas/";
+    const ideaFilePath = path.resolve(ideasDirectory, `${ideaFilename}`);
+    const fileContent = fs.readFileSync(ideaFilePath, "utf-8");
+    const frontmatter = parseFrontmatter(fileContent);
+    return frontmatter.title;
 };
+
+import * as yaml from 'js-yaml';
+
 
 const parseFrontmatter = (content: string): Record<string, any> => {
     const frontmatterRegex = /^---\s*\n([\s\S]*?)\n?---/;
     const match = content.match(frontmatterRegex);
     if (match && match[1]) {
-        return JSON.parse(match[1]);
+        return yaml.load(match[1]);
     } else {
         return {};
     }
 };
+
+
