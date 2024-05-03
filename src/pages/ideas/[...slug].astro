@@ -5,6 +5,11 @@ import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
+import {
+  loadProjectFromFilename,
+  loadOutputFromFilename,
+} from "src/project.type";
+import Link from "@components/Link.astro";
 
 export async function getStaticPaths() {
   const ideas = (await getCollection("ideas"))
@@ -39,7 +44,89 @@ const { Content } = await idea.render();
       <div class="animate text-2xl font-semibold text-black dark:text-white">
         {idea.data.title}
       </div>
+      {
+        idea.data.relatedProjectFiles &&
+          idea.data.relatedProjectFiles.length > 0 && (
+            <div class="flex animate">
+              <span class="font-bold" style="width: 150px;">
+                Related Projects:
+              </span>
+              {idea.data.relatedProjectFiles
+                .map((projectFilename: string, index: number) => {
+                  // Fetch the idea title from the filename
+                  const ideaTitle = loadProjectFromFilename(projectFilename);
+
+                  const filenameWithoutExtension = projectFilename.replace(
+                    /\.(md|mdx)$/,
+                    ""
+                  );
+
+                  const ideaURL = `../projects/${filenameWithoutExtension}`;
+
+                  return (
+                    <>
+                      <span class="ml-2">
+                        <Link href={ideaURL} external>
+                          {ideaTitle || filenameWithoutExtension}
+                        </Link>
+                      </span>
+                      {index !== idea.data.relatedProjectFiles.length - 1 && (
+                        <span class="mx-1">,</span>
+                      )}
+                    </>
+                  );
+                })
+                .reduce((prev: any[], curr: any, index: number) => {
+                  return index < idea.data.relatedProjectFiles.length - 1
+                    ? prev.concat([curr, <span class="mx-1">,</span>])
+                    : prev.concat(curr);
+                }, [])}
+            </div>
+          )
+      }
+
+      {
+        idea.data.relatedOutputFiles &&
+          idea.data.relatedOutputFiles.length > 0 && (
+            <div class="flex animate">
+              <span class="font-bold" style="width: 150px;">
+                Related Outputs:
+              </span>
+              {idea.data.relatedOutputFiles
+                .map((outputFilename: string, index: number) => {
+                  // Fetch the output title from the filename
+                  const outputTitle = loadOutputFromFilename(outputFilename);
+
+                  const filenameWithoutExtension = outputFilename.replace(
+                    /\.(md|mdx)$/,
+                    ""
+                  );
+
+                  const outputURL = `../blog/${filenameWithoutExtension}`;
+
+                  return (
+                    <>
+                      <span class="ml-2">
+                        <Link href={outputURL} external>
+                          {outputTitle || filenameWithoutExtension}
+                        </Link>
+                      </span>
+                      {index !== idea.data.relatedOutputFiles.length - 1 && (
+                        <span class="mx-1">,</span>
+                      )}
+                    </>
+                  );
+                })
+                .reduce((prev: any[], curr: any, index: number) => {
+                  return index < idea.data.relatedOutputFiles.length - 1
+                    ? prev.concat([curr, <span class="mx-1">,</span>])
+                    : prev.concat(curr);
+                }, [])}
+            </div>
+          )
+      }
     </div>
+
     <article class="animate">
       <Content />
     </article>

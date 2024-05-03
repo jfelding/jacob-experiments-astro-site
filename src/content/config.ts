@@ -1,16 +1,5 @@
 import { defineCollection, z } from "astro:content";
-import type { Project, Idea } from "src/project.type";
-
-const blog = defineCollection({
-  type: "content",
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
-    draft: z.boolean().optional()
-  }),
-});
-
+import type { Project, Idea, Output } from "src/project.type";
 
 const work = defineCollection({
   type: "content",
@@ -22,6 +11,9 @@ const work = defineCollection({
   }),
 });
 
+
+const blog = defineCollection<Output>({
+});
 const ideas = defineCollection<Idea>({
 });
 

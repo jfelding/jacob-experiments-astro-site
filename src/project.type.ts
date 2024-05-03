@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import yaml from "js-yaml";
+
 
 export enum Category {
     Gardening = "Gardening",
@@ -49,26 +51,34 @@ export type Idea = {
     relatedProjectFiles?: string[]; // File names (mdx files) of projects connected to the idea
 };
 
+type Frontmatter = Record<string, any>;
 
-export const loadIdeaFromFilename = (ideaFilename: string): string => {
-    const ideasDirectory = "src/content/ideas/";
-    const ideaFilePath = path.resolve(ideasDirectory, `${ideaFilename}`);
-    const fileContent = fs.readFileSync(ideaFilePath, "utf-8");
-    const frontmatter = parseFrontmatter(fileContent);
-    return frontmatter.title;
-};
-
-import * as yaml from 'js-yaml';
-
-
-const parseFrontmatter = (content: string): Record<string, any> => {
+const parseFrontmatter = (content: string): Frontmatter => {
     const frontmatterRegex = /^---\s*\n([\s\S]*?)\n?---/;
     const match = content.match(frontmatterRegex);
     if (match && match[1]) {
-        return yaml.load(match[1]);
+        return yaml.load(match[1]) as Frontmatter;
     } else {
         return {};
     }
 };
 
+const loadFromFilename = (folder: string, filename: string): string => {
+    const directory = `src/content/${folder}/`;
+    const filePath = path.resolve(directory, filename);
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+    const frontmatter = parseFrontmatter(fileContent);
+    return frontmatter.title;
+};
 
+export const loadIdeaFromFilename = (ideaFilename: string): string => {
+    return loadFromFilename("ideas", ideaFilename);
+};
+
+export const loadProjectFromFilename = (projectFilename: string): string => {
+    return loadFromFilename("projects", projectFilename);
+};
+
+export const loadOutputFromFilename = (outputFilename: string): string => {
+    return loadFromFilename("blog", outputFilename);
+};
