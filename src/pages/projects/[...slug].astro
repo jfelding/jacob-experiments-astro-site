@@ -10,6 +10,7 @@ import {
   Category,
   loadIdeaFromFilename,
   loadOutputFromFilename,
+  generateRelatedFilesOverview,
 } from "src/project.type";
 import {
   getRatingEmoji,
@@ -54,7 +55,6 @@ const { Content } = await project.render();
       </div>
 
       <div
-        style="width:fit-content"
         class="p-4 rounded-lg animate dark:border-white/50 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white"
       >
         {
@@ -150,87 +150,23 @@ const { Content } = await project.render();
             </span>
           )
         }
-        {
-          project.data.relatedIdeaFiles &&
-            project.data.relatedIdeaFiles.length > 0 && (
-              <div class="flex">
-                <span class="font-bold" style="width: 150px;">
-                  Related Ideas:
-                </span>
-                {project.data.relatedIdeaFiles
-                  .map((ideaFilename: string, index: number) => {
-                    // Fetch the idea title from the filename
-                    const ideaTitle = loadIdeaFromFilename(ideaFilename);
+        <div
+          set:html={generateRelatedFilesOverview(
+            project.data.relatedIdeaFiles,
+            "Related Ideas",
+            "ideas",
+            loadIdeaFromFilename
+          )}
+        />
 
-                    const filenameWithoutExtension = ideaFilename.replace(
-                      /\.(md|mdx)$/,
-                      ""
-                    );
-
-                    const ideaURL = `../ideas/${filenameWithoutExtension}`;
-
-                    return (
-                      <>
-                        <span class="ml-2">
-                          <Link href={ideaURL} external>
-                            {ideaTitle || filenameWithoutExtension}
-                          </Link>
-                        </span>
-                        {index !== project.data.relatedIdeaFiles.length - 1 && (
-                          <span class="mx-1">,</span>
-                        )}
-                      </>
-                    );
-                  })
-                  .reduce((prev: any[], curr: any, index: number) => {
-                    return index < project.data.relatedIdeaFiles.length - 1
-                      ? prev.concat([curr, <span class="mx-1">,</span>])
-                      : prev.concat(curr);
-                  }, [])}
-              </div>
-            )
-        }
-        {
-          project.data.relatedOutputFiles &&
-            project.data.relatedOutputFiles.length > 0 && (
-              <div class="flex">
-                <span class="font-bold" style="width: 150px;">
-                  Related Outputs:
-                </span>
-                {project.data.relatedOutputFiles
-                  .map((outputFilename: string, index: number) => {
-                    // Fetch the output title from the filename
-                    const outputTitle = loadOutputFromFilename(outputFilename);
-
-                    const filenameWithoutExtension = outputFilename.replace(
-                      /\.(md|mdx)$/,
-                      ""
-                    );
-
-                    const outputURL = `../blog/${filenameWithoutExtension}`;
-
-                    return (
-                      <>
-                        <span class="ml-2">
-                          <Link href={outputURL} external>
-                            {outputTitle || filenameWithoutExtension}
-                          </Link>
-                        </span>
-                        {index !==
-                          project.data.relatedOutputFiles.length - 1 && (
-                          <span class="mx-1">,</span>
-                        )}
-                      </>
-                    );
-                  })
-                  .reduce((prev: any[], curr: any, index: number) => {
-                    return index < project.data.relatedOutputFiles.length - 1
-                      ? prev.concat([curr, <span class="mx-1">,</span>])
-                      : prev.concat(curr);
-                  }, [])}
-              </div>
-            )
-        }
+        <div
+          set:html={generateRelatedFilesOverview(
+            project.data.relatedOutputFiles,
+            "Related Outputs",
+            "blog",
+            loadOutputFromFilename
+          )}
+        />
       </div>
     </div>
 

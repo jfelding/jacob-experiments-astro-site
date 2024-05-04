@@ -8,6 +8,7 @@ import BackToPrev from "@components/BackToPrev.astro";
 import {
   loadProjectFromFilename,
   loadIdeaFromFilename,
+  generateRelatedFilesOverview,
 } from "src/project.type";
 import Link from "@components/Link.astro";
 
@@ -44,86 +45,26 @@ const { Content } = await post.render();
       <div class="animate text-2xl font-semibold text-black dark:text-white">
         {post.data.title}
       </div>
-      {
-        post.data.relatedProjectFiles &&
-          post.data.relatedProjectFiles.length > 0 && (
-            <div class="flex animate">
-              <span class="font-bold" style="width: 150px;">
-                Related Projects:
-              </span>
-              {post.data.relatedProjectFiles
-                .map((projectFilename: string, index: number) => {
-                  // Fetch the idea title from the filename
-                  const ideaTitle = loadProjectFromFilename(projectFilename);
-
-                  const filenameWithoutExtension = projectFilename.replace(
-                    /\.(md|mdx)$/,
-                    ""
-                  );
-
-                  const ideaURL = `../projects/${filenameWithoutExtension}`;
-
-                  return (
-                    <>
-                      <span class="ml-2">
-                        <Link href={ideaURL} external>
-                          {ideaTitle || filenameWithoutExtension}
-                        </Link>
-                      </span>
-                      {index !== post.data.relatedProjectFiles.length - 1 && (
-                        <span class="mx-1">,</span>
-                      )}
-                    </>
-                  );
-                })
-                .reduce((prev: any[], curr: any, index: number) => {
-                  return index < post.data.relatedProjectFiles.length - 1
-                    ? prev.concat([curr, <span class="mx-1">,</span>])
-                    : prev.concat(curr);
-                }, [])}
-            </div>
-          )
-      }
-
-      {
-        post.data.relatedIdeaFiles && post.data.relatedIdeaFiles.length > 0 && (
-          <div class="flex animate">
-            <span class="font-bold" style="width: 150px;">
-              Related Ideas:
-            </span>
-            {post.data.relatedIdeaFiles
-              .map((ideaFilename: string, index: number) => {
-                // Fetch the idea title from the filename
-                const ideaTitle = loadIdeaFromFilename(ideaFilename);
-
-                const filenameWithoutExtension = ideaFilename.replace(
-                  /\.(md|mdx)$/,
-                  ""
-                );
-
-                const ideaURL = `../ideas/${filenameWithoutExtension}`;
-
-                return (
-                  <>
-                    <span class="ml-2">
-                      <Link href={ideaURL} external>
-                        {ideaTitle || filenameWithoutExtension}
-                      </Link>
-                    </span>
-                    {index !== post.data.relatedIdeaFiles.length - 1 && (
-                      <span class="mx-1">,</span>
-                    )}
-                  </>
-                );
-              })
-              .reduce((prev: any[], curr: any, index: number) => {
-                return index < post.data.relatedIdeaFiles.length - 1
-                  ? prev.concat([curr, <span class="mx-1">,</span>])
-                  : prev.concat(curr);
-              }, [])}
-          </div>
-        )
-      }
+      <div
+        class="p-4 rounded-lg animate dark:border-white/50 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white"
+      >
+        <div
+          set:html={generateRelatedFilesOverview(
+            post.data.relatedIdeaFiles,
+            "Related Ideas",
+            "ideas",
+            loadIdeaFromFilename
+          )}
+        />
+        <div
+          set:html={generateRelatedFilesOverview(
+            post.data.relatedProjectFiles,
+            "Related Projects",
+            "projects",
+            loadProjectFromFilename
+          )}
+        />
+      </div>
     </div>
     <article class="animate">
       <Content />

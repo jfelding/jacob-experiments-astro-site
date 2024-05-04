@@ -82,3 +82,24 @@ export const loadProjectFromFilename = (projectFilename: string): string => {
 export const loadOutputFromFilename = (outputFilename: string): string => {
     return loadFromFilename("blog", outputFilename);
 };
+
+export function generateRelatedFilesOverview(files: string[], title: string, path: string, loadTitleFromFilename: (filename: string) => string) {
+  if (!files || files.length === 0) {
+    return "";
+  }
+
+  let output = `<div class="animate flex">`; // Changed to 3 columns
+  output += `<span class="font-bold" style="width:150px;">${title}:</span><div class=grid grid-cols-1">`; 
+
+  files.forEach((filename: string) => {
+    const title = loadTitleFromFilename(filename);
+    const filenameWithoutExtension = filename.replace(/\.(md|mdx)$/, "");
+    const url = `../${path}/${filenameWithoutExtension}`;
+    
+    output += `<span class="ml-2 col-start-1"><a href="${url}" target="_blank">${title || filenameWithoutExtension}</a></span>`; // Span across 2 columns
+  });
+
+  output += "</div></div>";
+
+  return output;
+}
