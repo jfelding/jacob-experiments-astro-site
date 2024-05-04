@@ -6,7 +6,12 @@ import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
 import Link from "@components/Link.astro";
-import { Category } from "src/project.type";
+import {
+  Category,
+  loadIdeaFromFilename,
+  loadOutputFromFilename,
+  generateRelatedFilesOverview,
+} from "src/project.type";
 import {
   getRatingEmoji,
   getStatusEmoji,
@@ -50,7 +55,6 @@ const { Content } = await project.render();
       </div>
 
       <div
-        style="width:fit-content"
         class="p-4 rounded-lg animate dark:border-white/50 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white"
       >
         {
@@ -146,6 +150,23 @@ const { Content } = await project.render();
             </span>
           )
         }
+        <div
+          set:html={generateRelatedFilesOverview(
+            project.data.relatedIdeaFiles,
+            "Related Ideas",
+            "ideas",
+            loadIdeaFromFilename
+          )}
+        />
+
+        <div
+          set:html={generateRelatedFilesOverview(
+            project.data.relatedOutputFiles,
+            "Related Outputs",
+            "blog",
+            loadOutputFromFilename
+          )}
+        />
       </div>
     </div>
 
