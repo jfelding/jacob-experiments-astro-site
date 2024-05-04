@@ -94,7 +94,7 @@ export function generateRelatedFilesOverview(files: string[], title: string, pat
   files.forEach((filename: string) => {
     const title = loadTitleFromFilename(filename);
     const filenameWithoutExtension = filename.replace(/\.(md|mdx)$/, "");
-    const url = `../${path}/${filenameWithoutExtension}`;
+    const url = `/${path}/${filenameWithoutExtension}`;
     
     output += `<span class="ml-2 col-start-1"><a href="${url}" target="_blank">${title || filenameWithoutExtension}</a></span>`; // Span across 2 columns
   });
