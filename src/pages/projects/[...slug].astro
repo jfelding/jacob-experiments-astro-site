@@ -65,7 +65,7 @@ const { Content } = await project.render();
               </span>
               <span class="ml-2">🏆 </span>
               <span class="ml-2">
-                <Link href={project.data.repoURL} external>
+                <Link href={project.data.demoURL} external>
                   {project.data.demoURL}
                 </Link>
               </span>
@@ -76,7 +76,7 @@ const { Content } = await project.render();
           project.data.repoURL && (
             <span class="flex">
               <span class="font-bold" style="width: 150px;">
-                Demo:
+                Repository:
               </span>
               <span class="ml-2">🧑‍💻 </span>
               <span class="ml-2">
