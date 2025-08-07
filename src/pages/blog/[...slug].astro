@@ -15,7 +15,7 @@ import Link from "@components/Link.astro";
 export async function getStaticPaths() {
   const posts = (await getCollection("blog"))
     .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: post,
@@ -27,7 +27,7 @@ const post = Astro.props;
 const { Content } = await post.render();
 ---
 
-<PageLayout title={post.data.title} description={post.data.description}>
+<PageLayout title={post.data.title} description={post.data.description} seo={post.data.seo}>
   <Container>
     <div class="animate">
       <BackToPrev href="/blog"> Back to blog </BackToPrev>
@@ -50,7 +50,7 @@ const { Content } = await post.render();
       >
         <div
           set:html={generateRelatedFilesOverview(
-            post.data.relatedIdeaFiles,
+            post.data.relatedIdeaFiles || [],
             "Related Ideas",
             "ideas",
             loadIdeaFromFilename
@@ -58,7 +58,7 @@ const { Content } = await post.render();
         />
         <div
           set:html={generateRelatedFilesOverview(
-            post.data.relatedProjectFiles,
+            post.data.relatedProjectFiles || [],
             "Related Projects",
             "projects",
             loadProjectFromFilename

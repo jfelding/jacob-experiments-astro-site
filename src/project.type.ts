@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
+import type { SEOProps } from "./types";
 
 
 export enum Category {
@@ -25,6 +26,7 @@ export type Output = {
     categories: Category[];
     relatedProjectFiles?: string[]; // File names (mdx files) of projects connected to the output
     relatedIdeaFiles?: string[]; // File names (mdx files) of ideas related to the output
+    seo?: SEOProps; // SEO properties for better search engine optimization
 };
 
 export type Project = {
@@ -33,12 +35,14 @@ export type Project = {
     date: Date;
     draft?: boolean;
     repoURL?: string;
+    demoURL?: string;
     statusRating?: "in-progress" | "on-hold" | "completed" | "delayed" | "upcoming" | "cancelled" | "under-review" | "needs-attention" | "awaiting-feedback" | "testing-phase" | "polishing";
     timeInvestmentRating: "low" | "medium" | "high";
     necessityRating: "low" | "medium" | "high";
     categories: Category[];
     relatedOutputFiles?: string[]; // File names (mdx files) of outputs related to the project
     relatedIdeaFiles?: string[]; // File names (mdx files) of ideas related to the project
+    seo?: SEOProps; // SEO properties for better search engine optimization
 };
 
 export type Idea = {
@@ -49,6 +53,7 @@ export type Idea = {
     categories?: Category[];
     relatedOutputFiles?: string[]; // File names (mdx files) of outputs related to the idea
     relatedProjectFiles?: string[]; // File names (mdx files) of projects connected to the idea
+    seo?: SEOProps; // SEO properties for better search engine optimization
 };
 
 type Frontmatter = Record<string, any>;

@@ -1,5 +1,7 @@
 import type { Site, Metadata, Socials } from "@types";
 
+export const SITE_URL = "https://jacob-experiments.com";
+
 export const SITE: Site = {
   NAME: "Jacob Experiments",
   EMAIL: "jfelding+projects@gmail.com",

@@ -8,8 +8,9 @@ import Link from "@components/Link.astro";
 import { Category } from "src/project.type";
 import { SITE, HOME, SOCIALS } from "@consts";
 import IdeaBox from "@components/IdeaBox.astro";
-const blog = (await getCollection("blog"))
+import type { SEOProps } from "src/types";
 
+const blog = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
@@ -23,11 +24,19 @@ const ideas = (await getCollection("ideas"))
   .filter((idea) => !idea.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_IDEAS_ON_HOMEPAGE);
-
+const seo: SEOProps = {
+  title: "Jacob Experiments - Project Ideas, Results & Experiments",
+  description: "A personal project management site documenting my ideas, experiments, and results. Track my journey from concept to completion.",
+  openGraph: {
+    basic: {
+      title: "Jacob Experiments - Project Ideas, Results & Experiments",
+      type: "website",
+      image: "/assets/images/social-preview.png"
+    }
+  }
+};
 ---
-
-
-<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION} seo={seo}>
   <Container>
     <h4 class="animate font-semibold text-black dark:text-white">
       Welcome to Jacob Experiments! <span class="text-xl">👋</span>
@@ -103,10 +112,10 @@ const ideas = (await getCollection("ideas"))
               <li>
                 <ProjectArrowCard
                   entry={project}
-                  statusRating={project.data.statusRating}
-                  timeInvestmentRating={project.data.timeInvestmentRating}
-                  necessityRating={project.data.necessityRating}
-                  categories={project.data.categories as Category[] || []}  )  
+                  statusRating={project.data.statusRating || "in-progress"}
+                  timeInvestmentRating={project.data.timeInvestmentRating || "medium"}
+                  necessityRating={project.data.necessityRating || "medium"}
+                  categories={project.data.categories as Category[] || []}
                 />
               </li>
             ))
@@ -126,7 +135,7 @@ const ideas = (await getCollection("ideas"))
       ideas.map((idea) => (
         <IdeaBox
           entry={idea}
-          categories={idea.data.categories as Category[] || []}  )  
+          categories={idea.data.categories as Category[] || []}
         />
       ))
     }
@@ -188,14 +197,13 @@ const ideas = (await getCollection("ideas"))
       }
     }
 
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", (user:any) => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
-</script></PageLayout
->
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", (user: any) => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script></PageLayout>

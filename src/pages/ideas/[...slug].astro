@@ -27,7 +27,7 @@ const idea = Astro.props;
 const { Content } = await idea.render();
 ---
 
-<PageLayout title={idea.data.title} description={idea.data.description}>
+<PageLayout title={idea.data.title} description={idea.data.description} seo={idea.data.seo}>
   <Container>
     <div class="animate">
       <BackToPrev href="/ideas"> Back to ideas </BackToPrev>
@@ -50,7 +50,7 @@ const { Content } = await idea.render();
       >
         <div
           set:html={generateRelatedFilesOverview(
-            idea.data.relatedProjectFiles,
+            idea.data.relatedProjectFiles || [],
             "Related Projects",
             "projects",
             loadProjectFromFilename
@@ -59,7 +59,7 @@ const { Content } = await idea.render();
 
         <div
           set:html={generateRelatedFilesOverview(
-            idea.data.relatedOutputFiles,
+            idea.data.relatedOutputFiles || [],
             "Related Outputs",
             "blog",
             loadOutputFromFilename

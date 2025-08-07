@@ -4,13 +4,25 @@ import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 import { PROJECTS } from "@consts";
 import ProjectArrowCard from "@components/ProjectArrowCard.astro";
+import type { SEOProps } from "src/types";
 
 const projects = (await getCollection("projects"))
   .filter((project) => !project.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
----
 
-<PageLayout title={PROJECTS.TITLE} description={PROJECTS.DESCRIPTION}>
+const seo: SEOProps = {
+  title: "Projects - Jacob Experiments",
+  description: "A collection of my projects documenting my journey from concept to completion.",
+  openGraph: {
+    basic: {
+      title: "Projects - Jacob Experiments",
+      type: "website",
+      image: "/assets/images/social-preview.png"
+    }
+  }
+};
+
+<PageLayout title={PROJECTS.TITLE} description={PROJECTS.DESCRIPTION} seo={seo}>
   <Container>
     <div class="space-y-10">
       <div class="animate font-semibold text-black dark:text-white">
@@ -22,10 +34,10 @@ const projects = (await getCollection("projects"))
             <li>
               <ProjectArrowCard
                 entry={project}
-                timeInvestmentRating={project.data.timeInvestmentRating}
-                necessityRating={project.data.necessityRating}
-                statusRating={project.data.statusRating}
-                categories={project.data.categories}
+                timeInvestmentRating={project.data.timeInvestmentRating || "medium"}
+                necessityRating={project.data.necessityRating || "medium"}
+                statusRating={project.data.statusRating || "in-progress"}
+                categories={project.data.categories || []}
               />
             </li>
           ))

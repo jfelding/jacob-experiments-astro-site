@@ -4,6 +4,7 @@ import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import { BLOG } from "@consts";
+import type { SEOProps } from "src/types";
 
 const data = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -24,9 +25,20 @@ const posts = data.reduce((acc: Acc, post) => {
 }, {});
 
 const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
----
 
-<PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
+const seo: SEOProps = {
+  title: "Project Outputs - Jacob Experiments",
+  description: "Results of my projects are posted as blog posts. Find recipes, software demonstrations, and craft outputs.",
+  openGraph: {
+    basic: {
+      title: "Project Outputs - Jacob Experiments",
+      type: "website",
+      image: "/assets/images/social-preview.png"
+    }
+  }
+};
+
+<PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION} seo={seo}>
   <Container>
     <div class="space-y-10">
       <div class="animate font-semibold text-black dark:text-white">

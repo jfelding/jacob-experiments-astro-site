@@ -1,21 +1,61 @@
 ---
-import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import { SITE } from "@consts";
+import { SITE_URL } from "@consts";
+import { SEO } from "astro-seo";
+import type { SEOProps } from "../types";
 
+// Props interface for PageLayout component
+// Includes both basic page metadata and advanced SEO props
 type Props = {
   title: string;
   description: string;
+  seo?: SEOProps; // Optional advanced SEO props
 };
 
-const { title, description } = Astro.props;
+// Destructure props with fallback for backward compatibility
+const { title, description, seo } = Astro.props;
+
+// Default SEO values that apply to all pages
+const defaultSEO = {
+  title: `${title} | Jacob Experiments`,
+  description: description,
+  canonical: `${SITE_URL}${Astro.url.pathname}`,
+  openGraph: {
+    basic: {
+      title,
+      type: 'website',
+      image: '/assets/images/social-preview.png'
+    }
+  },
+  twitter: {
+    creator: "@jacobexperiments"
+  }
+};
+
+// Merge default SEO with provided SEO props (props override defaults)
+const mergedSEO = { ...defaultSEO, ...seo };
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <Head title={`${title} | ${SITE.NAME}`} description={description} />
+    <!-- SEO Implementation:
+         - Always use the SEO component with merged default and custom SEO props
+         - Default SEO values provide consistent baseline across all pages
+         - Custom SEO props can override any default value when needed
+    -->
+    <SEO
+      title={mergedSEO.title}
+      description={mergedSEO.description}
+      canonical={mergedSEO.canonical}
+      noindex={mergedSEO.noindex}
+      nofollow={mergedSEO.nofollow}
+      openGraph={mergedSEO.openGraph as any}
+      twitter={mergedSEO.twitter}
+      extend={mergedSEO.extend}
+    />
+    
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"
     ></script>
   </head>
