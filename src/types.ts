@@ -24,55 +24,11 @@ export interface SEOProps {
   canonical?: string;
   noindex?: boolean;
   nofollow?: boolean;
-  openGraph?: {
-    basic?: {
-      title?: string;
-      type?: string;
-      image?: string;
-      url?: string;
-    };
-    optional?: {
-      audio?: string;
-      description?: string;
-      locale?: string;
-      siteName?: string;
-      video?: string;
-    };
-    image?: {
-      secureUrl?: string;
-      type?: string;
-      width?: number;
-      height?: number;
-      alt?: string;
-    };
-    article?: {
-      publishedTime?: string;
-      modifiedTime?: string;
-      expirationTime?: string;
-      authors?: string[];
-      section?: string;
-      tags?: string[];
-    };
-  };
-  twitter?: {
-    card?: 'summary' | 'summary_large_image' | 'app' | 'player';
-    site?: string;
-    creator?: string;
-    title?: string;
-    image?: string;
-    imageAlt?: string;
-    description?: string;
-  };
-  extend?: {
-    link?: Array<{
-      rel: string;
-      href: string;
-      prefetch?: boolean;
-    }>;
-    meta?: Array<{
-      name?: string;
-      property?: string;
-      content: string;
-    }>;
-  };
+  image?: string;
+  twitterCard?: 'summary' | 'summary_large_image' | 'app' | 'player';
+  twitterSite?: string;
+  twitterCreator?: string;
+  ogType?: string;
+  ogSiteName?: string;
+  publishedTime?: string;
 }

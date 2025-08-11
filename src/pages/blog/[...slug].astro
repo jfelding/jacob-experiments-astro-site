@@ -27,7 +27,21 @@ const post = Astro.props;
 const { Content } = await post.render();
 ---
 
-<PageLayout title={post.data.title} description={post.data.description} seo={post.data.seo}>
+<PageLayout
+  title={post.data.title}
+  description={post.data.description}
+  seo={{
+    title: post.data.title,
+    description: post.data.description,
+    canonical: post.data.canonical,
+    noindex: post.data.noindex,
+    nofollow: post.data.nofollow,
+    image: post.data.image,
+    ogType: 'article',
+    ogSiteName: 'Jacob Experiments',
+    publishedTime: post.data.date.toISOString()
+  }}
+>
   <Container>
     <div class="animate">
       <BackToPrev href="/blog"> Back to blog </BackToPrev>

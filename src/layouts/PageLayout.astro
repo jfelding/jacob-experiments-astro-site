@@ -6,7 +6,7 @@ import { SEO } from "astro-seo";
 import type { SEOProps } from "../types";
 
 // Props interface for PageLayout component
-// Includes both basic page metadata and advanced SEO props
+// Includes both basic page metadata an       d advanced SEO props
 type Props = {
   title: string;
   description: string;
@@ -34,12 +34,28 @@ const defaultSEO = {
 };
 
 // Merge default SEO with provided SEO props (props override defaults)
-const mergedSEO = { ...defaultSEO, ...seo };
+const mergedSEO = {
+  ...defaultSEO,
+  ...seo,
+  openGraph: {
+    ...defaultSEO.openGraph,
+    ...(seo?.image ? { basic: { ...defaultSEO.openGraph?.basic, image: seo.image } } : {}),
+    ...(seo?.ogType ? { basic: { ...defaultSEO.openGraph?.basic, type: seo.ogType } } : {})
+  },
+  // twitter: {
+  //   ...defaultSEO.twitter,
+  //   ...(seo?.twitterCard ? { card: seo.twitterCard } : {}),
+  //   ...(seo?.twitterCreator ? { creator: seo.twitterCreator } : {}),
+  //   ...(seo?.twitterSite ? { site: seo.twitterSite } : {}),
+  //   ...(seo?.image ? { image: seo.image } : {})
+  // }
+};
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <!-- SEO Implementation:
          - Always use the SEO component with merged default and custom SEO props
          - Default SEO values provide consistent baseline across all pages
@@ -53,11 +69,10 @@ const mergedSEO = { ...defaultSEO, ...seo };
       nofollow={mergedSEO.nofollow}
       openGraph={mergedSEO.openGraph as any}
       twitter={mergedSEO.twitter}
-      extend={mergedSEO.extend}
     />
     
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"
-    ></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js">
+    </script>
   </head>
   <body>
     <Header />

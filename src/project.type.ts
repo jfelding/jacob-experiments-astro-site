@@ -9,7 +9,8 @@ export enum Category {
     CookingAndBaking = "Cooking & Baking",
     Software = "Software",
     DataAnalysisAndMachineLearning = "Data Analysis and Machine Learning",
-    HardwareAndRepairs = "Hardware & Repairs"
+    HardwareAndRepairs = "Hardware & Repairs",
+    Other = "Other"
 }
 
 export const allCategories: Category[] = Object.values(Category);

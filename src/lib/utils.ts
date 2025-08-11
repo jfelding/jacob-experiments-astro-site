@@ -138,6 +138,8 @@ export function getCategoryEmoji(category: Category): string {
       return '📊'; // Data Analysis and Machine Learning
     case Category.HardwareAndRepairs:
       return '🔧'; // Hardware & Repairs
+    case Category.Other:
+      return '📦'; // Other
     default:
       return '❓'; // Unknown category
   }

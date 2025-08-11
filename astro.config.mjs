@@ -7,4 +7,9 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   site: "https://jacob-experiments.com",
   integrations: [mdx(), sitemap(), tailwind()],
+  vite: {
+    build: {
+      charset: 'utf8'
+    }
+  }
 });
