@@ -28,10 +28,7 @@ const blog = defineCollection({
     relatedProjectFiles: z.array(z.string()).optional(),
     relatedIdeaFiles: z.array(z.string()).optional(),
     // New SEO override properties
-    image: z.string().url().optional(),
-    canonical: z.string().url().optional(),
-    noindex: z.boolean().optional(),
-    nofollow: z.boolean().optional(),
+    seo: z.any().optional(),
   }),
 });
 
@@ -47,10 +44,7 @@ const ideas = defineCollection({
     relatedOutputFiles: z.array(z.string()).optional(),
     relatedProjectFiles: z.array(z.string()).optional(),
     // New SEO override properties
-    image: z.string().url().optional(),
-    canonical: z.string().url().optional(),
-    noindex: z.boolean().optional(),
-    nofollow: z.boolean().optional(),
+    seo: z.any().optional(),
   }),
 });
 
@@ -71,10 +65,7 @@ const projects = defineCollection({
     relatedOutputFiles: z.array(z.string()).optional(),
     relatedIdeaFiles: z.array(z.string()).optional(),
     // New SEO override properties
-    image: z.string().url().optional(),
-    canonical: z.string().url().optional(),
-    noindex: z.boolean().optional(),
-    nofollow: z.boolean().optional(),
+    seo: z.any().optional(),
   }),
 });
 export const collections = { blog, work, projects, ideas };

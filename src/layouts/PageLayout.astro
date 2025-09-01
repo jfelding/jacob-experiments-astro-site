@@ -3,7 +3,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import { SITE_URL } from "@consts";
 import { SEO } from "astro-seo";
-import type { SEOProps } from "../types";
+import type { Props as SEOProps} from "astro-seo";
 import "../styles/global.css";
 
 // Props interface for PageLayout component
@@ -11,7 +11,7 @@ import "../styles/global.css";
 type Props = {
   title: string;
   description: string;
-  seo?: SEOProps; // Optional advanced SEO props
+  seo?: SEOProps; 
 };
 
 // Destructure props with fallback for backward compatibility
@@ -27,7 +27,10 @@ const defaultSEO = {
       title,
       type: 'website',
       image: '/assets/images/social-preview.png'
-    }
+    },
+    optional: {},
+    image: {},
+    article: {},
   },
   twitter: {
     creator: "@jacobexperiments"
@@ -40,16 +43,24 @@ const mergedSEO = {
   ...seo,
   openGraph: {
     ...defaultSEO.openGraph,
-    ...(seo?.image ? { basic: { ...defaultSEO.openGraph?.basic, image: seo.image } } : {}),
-    ...(seo?.ogType ? { basic: { ...defaultSEO.openGraph?.basic, type: seo.ogType } } : {})
+    ...seo?.openGraph,
+    basic: {
+      ...defaultSEO.openGraph?.basic,
+      ...seo?.openGraph?.basic,
+    },
+    optional: {
+      ...defaultSEO.openGraph?.optional,
+      ...seo?.openGraph?.optional,
+    },
+    image: {
+      ...defaultSEO.openGraph?.image,
+      ...seo?.openGraph?.image,
+    },
+    article: {
+      ...defaultSEO.openGraph?.article,
+      ...seo?.openGraph?.article,
+    },
   },
-  // twitter: {
-  //   ...defaultSEO.twitter,
-  //   ...(seo?.twitterCard ? { card: seo.twitterCard } : {}),
-  //   ...(seo?.twitterCreator ? { creator: seo.twitterCreator } : {}),
-  //   ...(seo?.twitterSite ? { site: seo.twitterSite } : {}),
-  //   ...(seo?.image ? { image: seo.image } : {})
-  // }
 };
 ---
 
@@ -81,102 +92,5 @@ const mergedSEO = {
       <slot />
     </main>
     <Footer />
-    <script>
-      function init() {
-        preloadTheme();
-        onScroll();
-        animate();
-
-        const backToTop = document.getElementById("back-to-top");
-        backToTop?.addEventListener("click", (event) => scrollToTop(event));
-
-        const backToPrev = document.getElementById("back-to-prev");
-        backToPrev?.addEventListener("click", () => window.history.back());
-
-        const lightThemeButton = document.getElementById("light-theme-button");
-        lightThemeButton?.addEventListener("click", () => {
-          localStorage.setItem("theme", "light");
-          toggleTheme(false);
-        });
-
-        const darkThemeButton = document.getElementById("dark-theme-button");
-        darkThemeButton?.addEventListener("click", () => {
-          localStorage.setItem("theme", "dark");
-          toggleTheme(true);
-        });
-
-        window
-          .matchMedia("(prefers-color-scheme: dark)")
-          .addEventListener("change", (event) => {
-            if (localStorage.theme === "system") {
-              toggleTheme(event.matches);
-            }
-          });
-
-        document.addEventListener("scroll", onScroll);
-      }
-
-      function animate() {
-        const animateElements = document.querySelectorAll(".animate");
-
-        animateElements.forEach((element, index) => {
-          setTimeout(() => {
-            element.classList.add("show");
-          }, index * 150);
-        });
-      }
-
-      function onScroll() {
-        if (window.scrollY > 0) {
-          document.documentElement.classList.add("scrolled");
-        } else {
-          document.documentElement.classList.remove("scrolled");
-        }
-      }
-
-      function scrollToTop(event) {
-        event.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      }
-
-      function toggleTheme(dark) {
-        const css = document.createElement("style");
-
-        css.appendChild(
-          document.createTextNode(
-            `* {transition: none !important;}
-            `,
-          ),
-        );
-
-        document.head.appendChild(css);
-
-        if (dark) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-
-        window.getComputedStyle(css).opacity;
-        document.head.removeChild(css);
-      }
-
-      function preloadTheme() {
-        const userTheme = localStorage.theme;
-
-        if (userTheme === "light" || userTheme === "dark") {
-          toggleTheme(userTheme === "dark");
-        } else {
-          toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", () => init());
-      document.addEventListener("astro:after-swap", () => init());
-      preloadTheme();
-    </script>
   </body>
 </html>

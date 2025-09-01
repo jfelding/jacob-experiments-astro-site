@@ -1,8 +1,7 @@
 import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
-import type { SEOProps } from "./types";
-
+import type { Props as SEOProps} from "astro-seo";
 
 export enum Category {
     Gardening = "Gardening",
@@ -13,7 +12,7 @@ export enum Category {
     Other = "Other"
 }
 
-export const allCategories: Category[] = Object.values(Category);
+export const allO: Category[] = Object.values(Category);
 
 export type Output = {
     title: string;

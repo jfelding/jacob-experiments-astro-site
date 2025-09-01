@@ -10,7 +10,6 @@ import {
   loadOutputFromFilename,
   generateRelatedFilesOverview,
 } from "src/project.type";
-import Link from "@components/Link.astro";
 
 export async function getStaticPaths() {
   const ideas = (await getCollection("ideas"))

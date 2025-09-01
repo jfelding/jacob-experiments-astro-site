@@ -8,7 +8,7 @@ import Link from "@components/Link.astro";
 import { Category } from "src/project.type";
 import { SITE, HOME, SOCIALS } from "@consts";
 import IdeaBox from "@components/IdeaBox.astro";
-import type { SEOProps } from "src/types";
+import type { Props as SEOProps } from "astro-seo";
 
 const blog = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -88,10 +88,10 @@ const seo: SEOProps = {
           </h5>
           <Link href="/blog"> See all project outputs </Link>
         </div>
-        <ul class="flex flex-col gap-4">
+        <ul class="flex flex-col gap-4 stagger">
           {
-            blog.map((post) => (
-              <li>
+            blog.map((post, i) => (
+              <li class="animate" style={`--i:${i}`}>
                 <ArrowCard entry={post} />
               </li>
             ))
@@ -106,10 +106,10 @@ const seo: SEOProps = {
           </h5>
           <Link href="/projects"> See all projects</Link>
         </div>
-        <ul class="flex flex-col gap-4">
+        <ul class="flex flex-col gap-4 stagger">
           {
-            projects.map((project) => (
-              <li>
+            projects.map((project, i) => (
+              <li class="animate" style={`--i:${i}`}>
                 <ProjectArrowCard
                   entry={project}
                   statusRating={project.data.statusRating || "in-progress"}
@@ -130,13 +130,14 @@ const seo: SEOProps = {
     </h5>
     <Link href="/ideas"> See all ideas</Link>
   </div>
-  <div class="flex flex-wrap gap-4" style="word-wrap: break-word;">
+  <div class="flex flex-wrap gap-4 stagger" style="word-wrap: break-word;">
     {
-      ideas.map((idea) => (
-        <IdeaBox
-          entry={idea}
-          categories={idea.data.categories as Category[] || []}
-        />
+      ideas.map((idea, i) => (
+        <div class="animate" style={`--i:${i}`}>
+          <IdeaBox
+            entry={idea}
+          />
+        </div>
       ))
     }
   </div>

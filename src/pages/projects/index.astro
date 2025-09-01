@@ -1,18 +1,35 @@
 ---
-import { getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
-import { PROJECTS } from "@consts";
 import ProjectArrowCard from "@components/ProjectArrowCard.astro";
-import type { SEOProps } from "src/types";
+import { PROJECTS } from "@consts";
+import type { Props as SEOProps } from "astro-seo";
+import { Category } from "src/project.type";
 
-const projects = (await getCollection("projects"))
+const data = (await getCollection("projects"))
   .filter((project) => !project.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
+type Acc = {
+  [year: string]: CollectionEntry<"projects">[];
+};
+
+const projects = data.reduce((acc: Acc, project) => {
+  const date: Date = new Date(project.data.date);
+  const year = date.getFullYear().toString();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(project);
+  return acc;
+}, {});
+
+const years = Object.keys(projects).sort((a, b) => parseInt(b) - parseInt(a));
+
 const seo: SEOProps = {
   title: "Projects - Jacob Experiments",
-  description: "A collection of my projects documenting my journey from concept to completion.",
+  description: "A collection of projects I'm working on, from software to crafts. Follow my progress from idea to completion.",
   openGraph: {
     basic: {
       title: "Projects - Jacob Experiments",
@@ -28,21 +45,30 @@ const seo: SEOProps = {
       <div class="animate font-semibold text-black dark:text-white">
         Projects
       </div>
-      <ul class="animate flex flex-col gap-4">
+      <div class="space-y-4">
         {
-          projects.map((project) => (
-            <li>
-              <ProjectArrowCard
-                entry={project}
-                timeInvestmentRating={project.data.timeInvestmentRating || "medium"}
-                necessityRating={project.data.necessityRating || "medium"}
-                statusRating={project.data.statusRating || "in-progress"}
-                categories={project.data.categories || []}
-              />
-            </li>
+          years.map((year) => (
+            <section class="animate space-y-4">
+              <div class="font-semibold text-black dark:text-white">{year}</div>
+              <div>
+                <ul class="flex flex-col gap-4">
+                  {projects[year].map((project) => (
+                    <li>
+                      <ProjectArrowCard
+                        entry={project}
+                        statusRating={project.data.statusRating || "in-progress"}
+                        timeInvestmentRating={project.data.timeInvestmentRating || "medium"}
+                        necessityRating={project.data.necessityRating || "medium"}
+                        categories={project.data.categories as Category[] || []}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
           ))
         }
-      </ul>
+      </div>
     </div>
   </Container>
 </PageLayout>

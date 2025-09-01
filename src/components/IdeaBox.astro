@@ -4,10 +4,9 @@ import type { Category } from "src/project.type.ts";
 import { getCategoryEmoji } from "src/lib/utils";
 type Props = {
   entry: CollectionEntry<"ideas">;
-  categories: Category[];
 };
 
-const { entry, categories } = Astro.props;
+const { entry } = Astro.props;
 ---
 
 <a
@@ -17,7 +16,7 @@ const { entry, categories } = Astro.props;
   <div>
     {entry.data.title}
     {
-      categories
+      entry.data.categories
         .map((category: Category) => getCategoryEmoji(category))
         .join("")
     }

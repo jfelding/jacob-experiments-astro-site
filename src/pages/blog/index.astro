@@ -4,7 +4,7 @@ import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import { BLOG } from "@consts";
-import type { SEOProps } from "src/types";
+import type { Props as SEOProps } from "astro-seo";
 
 const data = (await getCollection("blog"))
   .filter((post) => !post.data.draft)

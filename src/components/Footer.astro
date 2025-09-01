@@ -68,4 +68,34 @@ import BackToTop from "@components/BackToTop.astro";
       </div>
     </div>
   </Container>
+  <script is:inline>
+    const themeToggleButtons = document.querySelectorAll(
+      "#light-theme-button, #dark-theme-button"
+    );
+
+    const setTheme = (theme) => {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
+    };
+
+    const getPreferredTheme = () => {
+      if (typeof localStorage !== "undefined") {
+        return localStorage.getItem("theme") || "light";
+      }
+      return "light"; // Default to light if localStorage is not available
+    };
+
+    const currentTheme = getPreferredTheme();
+    setTheme(currentTheme);
+
+    themeToggleButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const newTheme =
+          document.documentElement.getAttribute("data-theme") === "light"
+            ? "dark"
+            : "light";
+        setTheme(newTheme);
+      });
+    });
+  </script>
 </footer>

@@ -10,7 +10,6 @@ import {
   loadIdeaFromFilename,
   generateRelatedFilesOverview,
 } from "src/project.type";
-import Link from "@components/Link.astro";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog"))
@@ -33,13 +32,22 @@ const { Content } = await post.render();
   seo={{
     title: post.data.title,
     description: post.data.description,
-    canonical: post.data.canonical,
-    noindex: post.data.noindex,
-    nofollow: post.data.nofollow,
-    image: post.data.image,
-    ogType: 'article',
-    ogSiteName: 'Jacob Experiments',
-    publishedTime: post.data.date.toISOString()
+    canonical: post.data.seo?.canonical,
+    noindex: post.data.seo?.noindex,
+    nofollow: post.data.seo?.nofollow,
+    openGraph: {
+      basic: {
+        title: post.data.title,
+        image: post.data.seo?.openGraph?.basic?.image || '/assets/images/social-preview.png',
+        type: 'article',
+      },
+      optional: {
+        siteName: 'Jacob Experiments',
+      },
+      article: {
+        publishedTime: post.data.date.toISOString(),
+      },
+    },
   }}
 >
   <Container>
