@@ -1,49 +1,35 @@
-import defaultTheme from "tailwindcss/defaultTheme";
-
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: "media",
-  content: [
-    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
-  ],
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
   theme: {
     extend: {
-      fontFamily: {
-        sans: ["Inter", ...defaultTheme.fontFamily.sans],
-        serif: ["Lora", ...defaultTheme.fontFamily.serif],
-      },
-
-
       colors: {
-        olive: {
-          DEFAULT: '#F8FAF2',
-          '50': '#F8FAF2',
-          '100': '#F2F4E6',
-          '200': '#DDE0C1',
-          '300': '#C7CB9B',
-          '400': '#B0B474',
-          '500': '#A2AB8C',
-          '600': '#7E846F',
-          '700': '#5B6052',
-          '800': '#373A35',
-          '900': '#141613',
-        },
         sandy: {
-          DEFAULT: '#fffcf5', // Default color
-          '50': '#fefdfb',    // Lightest shade
-          '100': '#fcf9ee',   // Lighter shade
-          '200': '#f7f3d5',   // Light shade
-          '300': '#e3d7ab',   // Medium shade
-          '400': '#cfc182',   // Medium-dark shade
-          '500': '#b9a55c',   // Dark shade
-          '600': '#9c8743',   // Darker shade
-          '700': '#7e6a2c',   // Even darker shade
-          '800': '#5f4c16',   // Darkest shade
-          '900': '#412e00',   // Deepest shade
+          50: 'rgb(var(--color-sandy-50) / <alpha-value>)',
+          100: 'rgb(var(--color-sandy-100) / <alpha-value>)',
+          200: 'rgb(var(--color-sandy-200) / <alpha-value>)',
+          300: 'rgb(var(--color-sandy-300) / <alpha-value>)',
+          400: 'rgb(var(--color-sandy-400) / <alpha-value>)',
+          500: 'rgb(var(--color-sandy-500) / <alpha-value>)',
+          600: 'rgb(var(--color-sandy-600) / <alpha-value>)',
+          700: 'rgb(var(--color-sandy-700) / <alpha-value>)',
+          800: 'rgb(var(--color-sandy-800) / <alpha-value>)',
+          900: 'rgb(var(--color-sandy-900) / <alpha-value>)',
         },
-
+        olive: {
+          50: 'rgb(var(--color-olive-50) / <alpha-value>)',
+          100: 'rgb(var(--color-olive-100) / <alpha-value>)',
+          200: 'rgb(var(--color-olive-200) / <alpha-value>)',
+          300: 'rgb(var(--color-olive-300) / <alpha-value>)',
+          400: 'rgb(var(--color-olive-400) / <alpha-value>)',
+          500: 'rgb(var(--color-olive-500) / <alpha-value>)',
+          600: 'rgb(var(--color-olive-600) / <alpha-value>)',
+          700: 'rgb(var(--color-olive-700) / <alpha-value>)',
+          800: 'rgb(var(--color-olive-800) / <alpha-value>)',
+          900: 'rgb(var(--color-olive-900) / <alpha-value>)',
+        },
       },
-
       keyframes: {
         'fade-in-up': {
           '0%': { opacity: '0', transform: 'translateY(0.75rem)' },

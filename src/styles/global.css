@@ -1,10 +1,31 @@
+:root {
+  --color-sandy-50: #fefdfb;
+  --color-sandy-100: #fcf9ee;
+  --color-sandy-200: #f7f3d5;
+  --color-sandy-300: #e3d7ab;
+  --color-sandy-400: #cfc182;
+  --color-sandy-500: #b9a55c;
+  --color-sandy-600: #9c8743;
+  --color-sandy-700: #7e6a2c;
+  --color-sandy-800: #5f4c16;
+  --color-sandy-900: #412e00;
+
+  --color-olive-50: #F8FAF2;
+  --color-olive-100: #F2F4E6;
+  --color-olive-200: #DDE0C1;
+  --color-olive-300: #C7CB9B;
+  --color-olive-400: #B0B474;
+  --color-olive-500: #A2AB8C;
+  --color-olive-600: #7E846F;
+  --color-olive-700: #5B6052;
+  --color-olive-800: #373A35;
+  --color-olive-900: #141613;
+}
+
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 html {
   overflow-y: scroll;
-  color-scheme: light;
 }
 
 html.dark {
@@ -41,19 +62,6 @@ article {
   @apply max-w-full prose dark:prose-invert prose-img:mx-auto prose-img:my-auto;
   @apply prose-headings:font-semibold prose-p:font-serif;
   @apply prose-headings:text-black prose-headings:dark:text-white;
-}
-
-@layer utilities {
-  article a {
-    @apply font-sans text-current underline underline-offset-2;
-    @apply decoration-black/15 dark:decoration-white/30;
-    @apply transition-colors duration-300 ease-in-out;
-  }
-
-  article a:hover {
-    @apply text-black dark:text-white;
-    @apply decoration-black/25 dark:decoration-white/50;
-  }
 }
 
 .animate {
