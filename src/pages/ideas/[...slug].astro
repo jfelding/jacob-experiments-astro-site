@@ -24,6 +24,21 @@ type Props = CollectionEntry<"ideas">;
 
 const idea = Astro.props;
 const { Content } = await idea.render();
+
+const allOutputs = await getCollection("blog");
+const allProjects = await getCollection("projects");
+
+const relatedOutputs = idea.data.relatedOutputFiles
+  ? allOutputs.filter((output) =>
+      idea.data.relatedOutputFiles?.includes(`${output.slug}.mdx`)
+    )
+  : [];
+
+const relatedProjects = idea.data.relatedProjectFiles
+  ? allProjects.filter((project) =>
+      idea.data.relatedProjectFiles?.includes(`${project.slug}.mdx`)
+    )
+  : [];
 ---
 
 <PageLayout title={idea.data.title} description={idea.data.description} seo={idea.data.seo}>
@@ -49,7 +64,7 @@ const { Content } = await idea.render();
       >
         <div
           set:html={generateRelatedFilesOverview(
-            idea.data.relatedProjectFiles || [],
+            relatedProjects,
             "Related Projects",
             "projects",
             loadProjectFromFilename
@@ -58,7 +73,7 @@ const { Content } = await idea.render();
 
         <div
           set:html={generateRelatedFilesOverview(
-            idea.data.relatedOutputFiles || [],
+            relatedOutputs,
             "Related Outputs",
             "blog",
             loadOutputFromFilename

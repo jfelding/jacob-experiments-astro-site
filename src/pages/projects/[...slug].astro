@@ -33,6 +33,21 @@ type Props = CollectionEntry<"projects">;
 
 const project = Astro.props;
 const { Content } = await project.render();
+
+const allOutputs = await getCollection("blog");
+const allIdeas = await getCollection("ideas");
+
+const relatedOutputs = project.data.relatedOutputFiles
+  ? allOutputs.filter((output) =>
+      project.data.relatedOutputFiles?.includes(`${output.slug}.mdx`)
+    )
+  : [];
+
+const relatedIdeas = project.data.relatedIdeaFiles
+  ? allIdeas.filter((idea) =>
+      project.data.relatedIdeaFiles?.includes(`${idea.slug}.mdx`)
+    )
+  : [];
 ---
 
 <PageLayout title={project.data.title} description={project.data.description} seo={project.data.seo}>
@@ -110,10 +125,10 @@ const { Content } = await project.render();
                 Necessity:
               </span>
               <span class="ml-2">
-                {getRatingEmoji(project.data.necessityRating)}
+                {getRatingEmoji(project.data.necessityRating!)}
               </span>
               <span class="ml-2">
-                {getRatingDescriptor(project.data.necessityRating)}
+                {getRatingDescriptor(project.data.necessityRating!)}
               </span>
             </span>
           )
@@ -152,7 +167,7 @@ const { Content } = await project.render();
         }
         <div
           set:html={generateRelatedFilesOverview(
-            project.data.relatedIdeaFiles || [],
+            relatedIdeas,
             "Related Ideas",
             "ideas",
             loadIdeaFromFilename
@@ -161,7 +176,7 @@ const { Content } = await project.render();
 
         <div
           set:html={generateRelatedFilesOverview(
-            project.data.relatedOutputFiles || [],
+            relatedOutputs,
             "Related Outputs",
             "blog",
             loadOutputFromFilename

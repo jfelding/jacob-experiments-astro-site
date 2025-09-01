@@ -1,6 +1,4 @@
-import fs from "fs";
-import path from "path";
-import yaml from "js-yaml";
+import type { CollectionEntry } from "astro:content";
 import type { Props as SEOProps} from "astro-seo";
 
 export enum Category {
@@ -56,39 +54,19 @@ export type Idea = {
     seo?: SEOProps; // SEO properties for better search engine optimization
 };
 
-type Frontmatter = Record<string, any>;
-
-const parseFrontmatter = (content: string): Frontmatter => {
-    const frontmatterRegex = /^---\s*\n([\s\S]*?)\n?---/;
-    const match = content.match(frontmatterRegex);
-    if (match && match[1]) {
-        return yaml.load(match[1]) as Frontmatter;
-    } else {
-        return {};
-    }
+export const loadIdeaFromFilename = (idea: CollectionEntry<'ideas'>): string => {
+    return idea.data.title;
 };
 
-const loadFromFilename = (folder: string, filename: string): string => {
-    const directory = `src/content/${folder}/`;
-    const filePath = path.resolve(directory, filename);
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const frontmatter = parseFrontmatter(fileContent);
-    return frontmatter.title;
+export const loadProjectFromFilename = (project: CollectionEntry<'projects'>): string => {
+    return project.data.title;
 };
 
-export const loadIdeaFromFilename = (ideaFilename: string): string => {
-    return loadFromFilename("ideas", ideaFilename);
+export const loadOutputFromFilename = (output: CollectionEntry<'blog'>): string => {
+    return output.data.title;
 };
 
-export const loadProjectFromFilename = (projectFilename: string): string => {
-    return loadFromFilename("projects", projectFilename);
-};
-
-export const loadOutputFromFilename = (outputFilename: string): string => {
-    return loadFromFilename("blog", outputFilename);
-};
-
-export function generateRelatedFilesOverview(files: string[], title: string, path: string, loadTitleFromFilename: (filename: string) => string) {
+export function generateRelatedFilesOverview<T extends CollectionEntry<any> & { slug: string }>(files: T[], title: string, collectionPath: string, loadTitleFromEntry: (entry: T) => string) {
   if (!files || files.length === 0) {
     return "";
   }
@@ -96,12 +74,11 @@ export function generateRelatedFilesOverview(files: string[], title: string, pat
   let output = `<div class="animate flex">`; // Changed to 3 columns
   output += `<span class="font-bold" style="width:150px;">${title}:</span><div class=grid grid-cols-1">`; 
 
-  files.forEach((filename: string) => {
-    const title = loadTitleFromFilename(filename);
-    const filenameWithoutExtension = filename.replace(/\.(md|mdx)$/, "");
-    const url = `/${path}/${filenameWithoutExtension}`;
+  files.forEach((file: T) => {
+    const itemTitle = loadTitleFromEntry(file);
+    const url = `/${collectionPath}/${file.slug}`;
     
-    output += `<span class="ml-2 col-start-1"><a href="${url}" target="_blank">${title || filenameWithoutExtension}</a></span>`; // Span across 2 columns
+    output += `<span class="ml-2 col-start-1"><a href="${url}" target="_blank">${itemTitle || file.slug}</a></span>`; // Span across 2 columns
   });
 
   output += "</div></div>";
